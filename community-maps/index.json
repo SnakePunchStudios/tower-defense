@@ -1,1 +1,11 @@
-{ "version": 1, "maps": [] }
+{
+  "version": 1,
+  "maps": [
+    {
+      "id": "custom_1773521738767",
+      "name": "New Map",
+      "author": "Tyler",
+      "uploadedAt": "2026-03-14T20:59:09.459Z"
+    }
+  ]
+}
