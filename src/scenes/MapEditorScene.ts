@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT, COLORS, UI, EDITOR_GRID_SIZE } from '../constants';
 import { Button } from '../ui/Button';
 import { DataManager } from '../utils/DataManager';
+import * as GitHubSync from '../utils/GitHubSync';
 import type { MapData, WaveData, EnemyData } from '../types';
 
 type EditorMode = 'path' | 'tower' | 'erase' | 'waves';
@@ -104,8 +105,9 @@ export class MapEditorScene extends Phaser.Scene {
       this.redraw();
     }, 42);
 
-    // Save / Download / Test / Back
+    // Save / Upload / Download / Test / Back
     makeBtn('Save', () => this.saveMap(), 55, 0x4caf50);
+    makeBtn('Upload', () => this.uploadToGitHub(), 70, 0x9c27b0);
     makeBtn('DL', () => this.downloadMap(), 38, 0x336688);
     makeBtn('Test', () => this.testMap(), 50, 0xff9800);
     makeBtn('Back', () => this.scene.start('MainMenu'), 50, COLORS.danger);
@@ -593,6 +595,67 @@ export class MapEditorScene extends Phaser.Scene {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
+  }
+
+  private async uploadToGitHub() {
+    // Validate map first
+    const cleanPaths = this.mapData.paths.filter(p => p.waypoints.length >= 2);
+    if (cleanPaths.length === 0) {
+      alert('Add at least one path with 2+ waypoints before uploading.');
+      return;
+    }
+    if (this.mapData.towerSpots.length === 0) {
+      alert('Add at least one tower spot before uploading.');
+      return;
+    }
+
+    // Ensure we have a GitHub token
+    let token = GitHubSync.getToken();
+    if (!token) {
+      const entered = prompt('Paste the Upload Key (ask a parent!):');
+      if (!entered) return;
+      GitHubSync.setToken(entered);
+      token = entered;
+    }
+
+    // Get author name
+    let author = GitHubSync.getAuthorName();
+    if (!author) {
+      const name = prompt('Your name:');
+      if (!name) return;
+      GitHubSync.setAuthorName(name);
+      author = name;
+    }
+
+    // Save locally first
+    this.mapData.paths = cleanPaths;
+    DataManager.saveCustomMap(this.mapData);
+
+    // Show uploading feedback
+    const feedbackText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'Uploading...', {
+      fontSize: '24px', fontFamily: UI.fontFamily, color: '#ffffff',
+      backgroundColor: '#000000cc', padding: { x: 20, y: 10 },
+    }).setOrigin(0.5).setDepth(100);
+
+    try {
+      await GitHubSync.uploadMap(this.mapData, author);
+      feedbackText.setText('Uploaded! 🎉');
+      feedbackText.setColor('#44ff44');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Upload failed';
+      feedbackText.setText(msg);
+      feedbackText.setColor('#ff4444');
+    }
+
+    // Fade out feedback after 3 seconds
+    this.time.delayedCall(3000, () => {
+      this.tweens.add({
+        targets: feedbackText,
+        alpha: 0,
+        duration: 500,
+        onComplete: () => feedbackText.destroy(),
+      });
+    });
   }
 
   private testMap() {

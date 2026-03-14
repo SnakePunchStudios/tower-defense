@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT, COLORS, UI } from '../constants';
 import { Button } from '../ui/Button';
 import { DataManager } from '../utils/DataManager';
 import { registerBase64Texture } from '../utils/ImageUpload';
+import { syncCommunityMaps } from '../utils/GitHubSync';
 
 export class MainMenuScene extends Phaser.Scene {
   constructor() {
@@ -70,29 +71,54 @@ export class MainMenuScene extends Phaser.Scene {
       this.scene.start('DataEditor');
     }, 200, 44);
 
-    // Export / Import row
-    new Button(this, GAME_WIDTH / 2 - 70, btnY + spacing * 3.5, 'Export', () => {
-      this.exportData();
-    }, 120, 40, 0x336688);
+    // Sync Maps
+    const syncStatusText = this.add.text(GAME_WIDTH / 2, btnY + spacing * 3.5 + 24, '', {
+      fontSize: '12px', fontFamily: UI.fontFamily, color: '#88ff88',
+    }).setOrigin(0.5);
 
-    new Button(this, GAME_WIDTH / 2 + 70, btnY + spacing * 3.5, 'Import', () => {
+    new Button(this, GAME_WIDTH / 2, btnY + spacing * 3.5, 'Sync Maps', () => {
+      this.syncMaps(syncStatusText);
+    }, 200, 40, 0x9c27b0);
+
+    // Export / Import (smaller fallback row)
+    new Button(this, GAME_WIDTH / 2 - 70, btnY + spacing * 4.5, 'Export', () => {
+      this.exportData();
+    }, 120, 32, 0x336688);
+
+    new Button(this, GAME_WIDTH / 2 + 70, btnY + spacing * 4.5, 'Import', () => {
       this.importData();
-    }, 120, 40, 0x336688);
+    }, 120, 32, 0x336688);
 
     // Reset data
-    new Button(this, GAME_WIDTH / 2, btnY + spacing * 4.4, 'Reset All Data', () => {
+    new Button(this, GAME_WIDTH / 2, btnY + spacing * 5.3, 'Reset All Data', () => {
       if (confirm('Reset all custom data to defaults?')) {
         DataManager.resetAll();
         this.scene.restart();
       }
-    }, 200, 36, COLORS.danger);
+    }, 200, 32, COLORS.danger);
 
     // Version
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'v0.2 — Export & share your creations!', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'v0.3 — Upload & share maps!', {
       fontSize: '12px',
       fontFamily: UI.fontFamily,
       color: '#666666',
     }).setOrigin(0.5);
+  }
+
+  private async syncMaps(statusText: Phaser.GameObjects.Text) {
+    statusText.setText('Syncing...').setColor('#ffffff');
+    try {
+      const result = await syncCommunityMaps();
+      if (result.added > 0) {
+        statusText.setText(`Downloaded ${result.added} new map${result.added > 1 ? 's' : ''}!`).setColor('#88ff88');
+        // Restart scene to refresh map list after a brief delay
+        this.time.delayedCall(1500, () => this.scene.restart());
+      } else {
+        statusText.setText(`All maps up to date (${result.total} community maps)`).setColor('#88ff88');
+      }
+    } catch {
+      statusText.setText('Sync failed — check your connection').setColor('#ff8888');
+    }
   }
 
   private exportData() {

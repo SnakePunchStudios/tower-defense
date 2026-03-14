@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { DataManager } from '../utils/DataManager';
 import { registerBase64Texture } from '../utils/ImageUpload';
+import { syncCommunityMaps } from '../utils/GitHubSync';
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -14,10 +15,22 @@ export class BootScene extends Phaser.Scene {
       color: '#ffffff',
     }).setOrigin(0.5);
 
-    // Load all custom entity textures from localStorage, then start
-    this.loadCustomTextures().then(() => {
-      text.destroy();
-      this.scene.start('MainMenu');
+    // Load custom textures + sync community maps in parallel, then start
+    Promise.all([
+      this.loadCustomTextures(),
+      syncCommunityMaps().catch(() => ({ added: 0, total: 0 })), // silently fail if offline
+    ]).then(([, syncResult]) => {
+      if (syncResult.added > 0) {
+        text.setText(`Downloaded ${syncResult.added} new map${syncResult.added > 1 ? 's' : ''}!`);
+        // Brief pause so they can read the message
+        this.time.delayedCall(1500, () => {
+          text.destroy();
+          this.scene.start('MainMenu');
+        });
+      } else {
+        text.destroy();
+        this.scene.start('MainMenu');
+      }
     });
   }
 
