@@ -1,0 +1,76 @@
+[
+  {
+    "id": "goblin",
+    "name": "Goblin",
+    "health": 30,
+    "speed": 80,
+    "armor": 0,
+    "magicResist": 0,
+    "reward": 5,
+    "tint": 16744516,
+    "size": 0.8
+  },
+  {
+    "id": "orc",
+    "name": "Orc Warrior",
+    "health": 80,
+    "speed": 55,
+    "armor": 3,
+    "magicResist": 0,
+    "reward": 10,
+    "tint": 5592405,
+    "size": 1.0
+  },
+  {
+    "id": "wolf_rider",
+    "name": "Wolf Rider",
+    "health": 50,
+    "speed": 120,
+    "armor": 1,
+    "magicResist": 0,
+    "reward": 15,
+    "tint": 6710886,
+    "size": 1.1
+  },
+  {
+    "id": "dark_mage",
+    "name": "Dark Mage",
+    "health": 40,
+    "speed": 60,
+    "armor": 0,
+    "magicResist": 5,
+    "reward": 20,
+    "tint": 6684774,
+    "size": 0.9,
+    "abilities": [
+      { "type": "heal", "value": 10, "cooldown": 5 }
+    ]
+  },
+  {
+    "id": "bat",
+    "name": "Giant Bat",
+    "health": 25,
+    "speed": 100,
+    "armor": 0,
+    "magicResist": 2,
+    "reward": 8,
+    "tint": 4473924,
+    "size": 0.7,
+    "isFlying": true
+  },
+  {
+    "id": "troll",
+    "name": "Troll Boss",
+    "health": 500,
+    "speed": 35,
+    "armor": 8,
+    "magicResist": 3,
+    "reward": 100,
+    "tint": 3368499,
+    "size": 1.8,
+    "isBoss": true,
+    "abilities": [
+      { "type": "heal", "value": 5, "cooldown": 3 }
+    ]
+  }
+]

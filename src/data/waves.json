@@ -1,0 +1,88 @@
+[
+  {
+    "id": 1,
+    "enemies": [
+      { "enemyId": "goblin", "count": 8, "delay": 800, "pathId": "main" }
+    ],
+    "reward": 25,
+    "delayBefore": 3000
+  },
+  {
+    "id": 2,
+    "enemies": [
+      { "enemyId": "goblin", "count": 10, "delay": 700, "pathId": "main" },
+      { "enemyId": "goblin", "count": 5, "delay": 900, "pathId": "alt" }
+    ],
+    "reward": 30,
+    "delayBefore": 5000
+  },
+  {
+    "id": 3,
+    "enemies": [
+      { "enemyId": "orc", "count": 6, "delay": 1000, "pathId": "main" }
+    ],
+    "reward": 40,
+    "delayBefore": 5000
+  },
+  {
+    "id": 4,
+    "enemies": [
+      { "enemyId": "goblin", "count": 12, "delay": 500, "pathId": "main" },
+      { "enemyId": "orc", "count": 4, "delay": 1200, "pathId": "alt" }
+    ],
+    "reward": 50,
+    "delayBefore": 5000
+  },
+  {
+    "id": 5,
+    "enemies": [
+      { "enemyId": "wolf_rider", "count": 8, "delay": 600, "pathId": "main" }
+    ],
+    "reward": 60,
+    "delayBefore": 5000
+  },
+  {
+    "id": 6,
+    "enemies": [
+      { "enemyId": "orc", "count": 8, "delay": 800, "pathId": "main" },
+      { "enemyId": "dark_mage", "count": 3, "delay": 1500, "pathId": "alt" }
+    ],
+    "reward": 70,
+    "delayBefore": 5000
+  },
+  {
+    "id": 7,
+    "enemies": [
+      { "enemyId": "bat", "count": 15, "delay": 400, "pathId": "main" }
+    ],
+    "reward": 60,
+    "delayBefore": 5000
+  },
+  {
+    "id": 8,
+    "enemies": [
+      { "enemyId": "wolf_rider", "count": 10, "delay": 500, "pathId": "main" },
+      { "enemyId": "orc", "count": 8, "delay": 700, "pathId": "alt" }
+    ],
+    "reward": 80,
+    "delayBefore": 5000
+  },
+  {
+    "id": 9,
+    "enemies": [
+      { "enemyId": "dark_mage", "count": 6, "delay": 1000, "pathId": "main" },
+      { "enemyId": "bat", "count": 10, "delay": 500, "pathId": "alt" }
+    ],
+    "reward": 90,
+    "delayBefore": 5000
+  },
+  {
+    "id": 10,
+    "enemies": [
+      { "enemyId": "troll", "count": 1, "delay": 0, "pathId": "main" },
+      { "enemyId": "orc", "count": 12, "delay": 600, "pathId": "alt" }
+    ],
+    "reward": 200,
+    "delayBefore": 8000
+  }
+]

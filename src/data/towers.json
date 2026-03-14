@@ -1,0 +1,54 @@
+[
+  {
+    "id": "archer",
+    "name": "Archer Tower",
+    "description": "Fast-firing ranged tower",
+    "category": "archer",
+    "tint": 5025616,
+    "levels": [
+      { "damage": 5, "range": 150, "fireRate": 1.5, "cost": 70, "projectileSpeed": 400 },
+      { "damage": 10, "range": 170, "fireRate": 1.8, "cost": 90, "projectileSpeed": 450 },
+      { "damage": 18, "range": 190, "fireRate": 2.2, "cost": 130, "projectileSpeed": 500 }
+    ],
+    "maxLevel": 3
+  },
+  {
+    "id": "mage",
+    "name": "Mage Tower",
+    "description": "Magic damage ignores armor",
+    "category": "mage",
+    "tint": 4456703,
+    "levels": [
+      { "damage": 12, "range": 130, "fireRate": 0.8, "cost": 100, "projectileSpeed": 300, "special": { "type": "splash", "value": 6, "radius": 40 } },
+      { "damage": 22, "range": 145, "fireRate": 1.0, "cost": 140, "projectileSpeed": 350, "special": { "type": "splash", "value": 10, "radius": 50 } },
+      { "damage": 38, "range": 160, "fireRate": 1.2, "cost": 200, "projectileSpeed": 400, "special": { "type": "splash", "value": 18, "radius": 60 } }
+    ],
+    "maxLevel": 3
+  },
+  {
+    "id": "barracks",
+    "name": "Barracks",
+    "description": "Spawns soldiers to block enemies",
+    "category": "barracks",
+    "tint": 8421504,
+    "levels": [
+      { "damage": 3, "range": 80, "fireRate": 1.0, "cost": 70 },
+      { "damage": 6, "range": 80, "fireRate": 1.2, "cost": 100 },
+      { "damage": 10, "range": 80, "fireRate": 1.5, "cost": 150 }
+    ],
+    "maxLevel": 3
+  },
+  {
+    "id": "cannon",
+    "name": "Cannon Tower",
+    "description": "Slow but devastating splash damage",
+    "category": "artillery",
+    "tint": 8409120,
+    "levels": [
+      { "damage": 20, "range": 120, "fireRate": 0.5, "cost": 125, "projectileSpeed": 250, "special": { "type": "splash", "value": 10, "radius": 50 } },
+      { "damage": 40, "range": 135, "fireRate": 0.6, "cost": 170, "projectileSpeed": 280, "special": { "type": "splash", "value": 20, "radius": 60 } },
+      { "damage": 70, "range": 150, "fireRate": 0.7, "cost": 250, "projectileSpeed": 300, "special": { "type": "splash", "value": 35, "radius": 75 } }
+    ],
+    "maxLevel": 3
+  }
+]
